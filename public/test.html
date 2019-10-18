@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Overlock+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="test.css">
+    <title>Star Express API</title>
+</head>
+<body onkeypress="validar(event)">
+    <div id="content">
+        <div id="imgCharacter" class="hidden"></div>
+        <h1>I KNOW YOU...</h1>
+        <h3>Just press <span id="enter">ENTER</span> and I'll tell you which side of the <span id="force">FORCE</span> you are</h3>
+        <h2>ENTER</h2>
+    </div>
+    <script>
+        const evtEnter = document.querySelector('body')
+
+        function validar(evtEnter) {
+            tecla = (document.all) ? evtEnter.keyCode : evtEnter.which;
+            if (tecla==13){
+            fetch('http://localhost:3000/sides/random')
+                .then(response => response.json())
+                .then(sides => {
+                  console.log(sides);
+
+            if(sides.type === "Dark Side"){
+                let cuerpo = document.querySelector('body')
+                cuerpo.style.backgroundColor = "black"
+                cuerpo.style.color = "white"
+
+                let addName = document.querySelector('h1')
+                addName.innerHTML = sides.name
+
+                let addDescript = document.querySelector('h3')
+                addDescript.innerHTML = sides.description
+
+                let imgCharDark = document.getElementById('imgCharacter')
+                imgCharDark.innerHTML = `<img src="${sides.img}" class"img-change" alt="${sides.name}"/>`
+
+                imgCharDark.classList.remove('hidden')
+
+            }else if(sides.type === "Light Side"){
+                let cuerpoLight = document.querySelector('body')
+                cuerpoLight.style.backgroundColor = "cyan"
+                cuerpoLight.style.color = "black"
+                
+                let addName = document.querySelector('h1')
+                addName.innerHTML = sides.name
+                
+                let addDescript = document.querySelector('h3')
+                addDescript.innerHTML = sides.description
+
+                let imgCharlight = document.getElementById('imgCharacter')
+                imgCharlight.innerHTML = `<img src="${sides.img}" alt="${sides.name}"/>`
+
+                imgCharlight.classList.remove('hidden')
+
+            }else{
+                console.log("something is wrong")
+            }
+            
+            })
+          }
+        }
+
+        evtEnter.addEventListener('keyCode', validar)
+
+
+
+      </script>
+</body>
+</html>
