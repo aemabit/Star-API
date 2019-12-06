@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="test.css">
     <title>Star Express API</title>
 </head>
-<body onkeypress="validar(event)">
+<body onkeypress="validation(event)">
     <div id="content">
         <div id="imgCharacter" class="hidden"></div>
         <h1>I KNOW YOU...</h1>
@@ -18,58 +18,53 @@
     <script>
         const evtEnter = document.querySelector('body')
 
-        function validar(evtEnter) {
+        function validation(evtEnter) {
             tecla = (document.all) ? evtEnter.keyCode : evtEnter.which;
             if (tecla==13){
-            fetch('http://localhost:3000/sides/random')
-                .then(response => response.json())
-                .then(sides => {
-                  console.log(sides);
+                fetch('http://localhost:8000/sides/random')
+                    .then(response => response.json())
+                    .then(sides => {
+                if(sides.type === "Dark Side"){
+                    let theBody = document.querySelector('body')
+                    theBody.style.backgroundColor = "black"
+                    theBody.style.color = "white"
 
-            if(sides.type === "Dark Side"){
-                let cuerpo = document.querySelector('body')
-                cuerpo.style.backgroundColor = "black"
-                cuerpo.style.color = "white"
+                    let addName = document.querySelector('h1')
+                    addName.innerHTML = sides.name
 
-                let addName = document.querySelector('h1')
-                addName.innerHTML = sides.name
+                    let addDescript = document.querySelector('h3')
+                    addDescript.innerHTML = sides.description
 
-                let addDescript = document.querySelector('h3')
-                addDescript.innerHTML = sides.description
+                    let imgCharDark = document.getElementById('imgCharacter')
+                    imgCharDark.innerHTML = `<img src="${sides.img}" class"img-change" alt="${sides.name}"/>`
 
-                let imgCharDark = document.getElementById('imgCharacter')
-                imgCharDark.innerHTML = `<img src="${sides.img}" class"img-change" alt="${sides.name}"/>`
+                    imgCharDark.classList.remove('hidden')
 
-                imgCharDark.classList.remove('hidden')
+                }else if(sides.type === "Light Side"){
+                    let theBodyLight = document.querySelector('body')
+                    theBodyLight.style.backgroundColor = "cyan"
+                    theBodyLight.style.color = "black"
 
-            }else if(sides.type === "Light Side"){
-                let cuerpoLight = document.querySelector('body')
-                cuerpoLight.style.backgroundColor = "cyan"
-                cuerpoLight.style.color = "black"
-                
-                let addName = document.querySelector('h1')
-                addName.innerHTML = sides.name
-                
-                let addDescript = document.querySelector('h3')
-                addDescript.innerHTML = sides.description
+                    let addName = document.querySelector('h1')
+                    addName.innerHTML = sides.name
 
-                let imgCharlight = document.getElementById('imgCharacter')
-                imgCharlight.innerHTML = `<img src="${sides.img}" alt="${sides.name}"/>`
+                    let addDescript = document.querySelector('h3')
+                    addDescript.innerHTML = sides.description
 
-                imgCharlight.classList.remove('hidden')
+                    let imgCharlight = document.getElementById('imgCharacter')
+                    imgCharlight.innerHTML = `<img src="${sides.img}" alt="${sides.name}"/>`
 
-            }else{
-                console.log("something is wrong")
-            }
-            
+                    imgCharlight.classList.remove('hidden')
+
+                }else{
+                    console.log("something is wrong")
+                }
             })
           }
         }
 
-        evtEnter.addEventListener('keyCode', validar)
+        evtEnter.addEventListener('keyCode', validation)
 
-
-
-      </script>
+    </script>
 </body>
 </html>

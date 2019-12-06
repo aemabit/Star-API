@@ -29,4 +29,8 @@ app.get('/sides/random', (request, response) => {
     response.json(sides[Math.floor(Math.random() * sides.length)])
   })
 
-app.listen(process.env.PORT || 3000)
+  const port = process.env.PORT || 8000
+  app.listen(
+    port,
+    () => { console.log(`API listening on port ${port}...`) }
+  )
