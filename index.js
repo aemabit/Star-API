@@ -16,6 +16,13 @@ const sides =
     {'type':'Light Side', 'img':'./img/Mace_Windu.jpg', 'name':'Mace Windu', 'description':'I dont know why you are here, you are the only one who breaks the rules'},
     {'type':'Light Side', 'img':'./img/c3po.jpeg', 'name':'C-3PO', 'description':'it shows that you know how to dance very well *laughs*'}
 ]
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get("/sides", (request, response) => {
     const theSide = request.query.type
     if (theSide) {
